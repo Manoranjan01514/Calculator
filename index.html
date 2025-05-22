@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advanced Calculator</title>
+  <style>
+    body {
+      background: linear-gradient(135deg, #4e54c8, #8f94fb);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .calculator {
+      background: #fff;
+      padding: 30px 20px;
+      border-radius: 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      width: 360px;
+    }
+
+    .display {
+      background: #f1f1f1;
+      border-radius: 10px;
+      padding: 20px;
+      font-size: 32px;
+      text-align: right;
+      margin-bottom: 20px;
+      height: 50px;
+      overflow-x: auto;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    button {
+      padding: 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .number {
+      background: #e3e3e3;
+    }
+
+    .operator {
+      background: #00bcd4;
+      color: white;
+    }
+
+    .special {
+      background: #ff9800;
+      color: white;
+    }
+
+    .equal {
+      background: #4caf50;
+      color: white;
+      grid-column: span 2;
+    }
+
+    .clear {
+      background: #f44336;
+      color: white;
+    }
+
+    .backspace {
+      background: #9c27b0;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button class="clear" onclick="clearDisplay()">AC</button>
+      <button class="special" onclick="toggleSign()">±</button>
+      <button class="special" onclick="append('%')">%</button>
+      <button class="backspace" onclick="backspace()">⌫</button>
+
+      <button class="number" onclick="append('7')">7</button>
+      <button class="number" onclick="append('8')">8</button>
+      <button class="number" onclick="append('9')">9</button>
+      <button class="operator" onclick="append('/')">÷</button>
+
+      <button class="number" onclick="append('4')">4</button>
+      <button class="number" onclick="append('5')">5</button>
+      <button class="number" onclick="append('6')">6</button>
+      <button class="operator" onclick="append('*')">×</button>
+
+      <button class="number" onclick="append('1')">1</button>
+      <button class="number" onclick="append('2')">2</button>
+      <button class="number" onclick="append('3')">3</button>
+      <button class="operator" onclick="append('-')">−</button>
+
+      <button class="number" onclick="append('0')">0</button>
+      <button class="number" onclick="append('.')">.</button>
+      <button class="equal" onclick="calculate()">=</button>
+      <button class="operator" onclick="append('+')">+</button>
+    </div>
+  </div>
+
+  <script>
+    let display = document.getElementById('display');
+
+    function append(value) {
+      if (display.innerText === '0' || display.innerText === 'Error') {
+        display.innerText = value;
+      } else {
+        display.innerText += value;
+      }
+    }
+
+    function calculate() {
+      try {
+        let result = eval(display.innerText.replace(/÷/g, '/').replace(/×/g, '*'));
+        display.innerText = result;
+      } catch {
+        display.innerText = 'Error';
+      }
+    }
+
+    function clearDisplay() {
+      display.innerText = '0';
+    }
+
+    function backspace() {
+      if (display.innerText.length > 1) {
+        display.innerText = display.innerText.slice(0, -1);
+      } else {
+        display.innerText = '0';
+      }
+    }
+
+    function toggleSign() {
+      let value = display.innerText;
+      if (value === '0') return;
+      if (value.charAt(0) === '-') {
+        display.innerText = value.slice(1);
+      } else {
+        display.innerText = '-' + value;
+      }
+    }
+  </script>
+</body>
+</html>
